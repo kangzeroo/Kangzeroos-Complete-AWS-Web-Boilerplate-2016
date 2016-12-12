@@ -39,15 +39,22 @@ class SignUp extends Component {
 	}
 
 	signup(){
+		// check that we have the mandatory attributes of `agentName`, `email` and `password`
 		if(this.state.agentName && this.state.email && this.state.password){
+			// check that the password and password confirmation match
 			if(this.state.password == this.state.passwordConfirm){
+				// if all checks pass, then toggle the loading icon as we run a syncronous piece of code
 				this.setState({loading: true})
+				// call the AWS Cognito function that we named `signUpUser`
 				signUpUser(this.state)
-					.then(({email, password})=>{
+					.then(({email})=>{
+						// if successful, then save the email to localStorage so we can pre-fill the email form on the login & verify account screens
 						localStorage.setItem('User_Email', email)
+						// re-route to the verify account screen
 						browserHistory.push('/auth/verify_account')
 					})
 					.catch((err)=>{
+						// if failure, display the error message and toggle the loading icon to disappear
 						this.setState({
 							errorMessage: err.message,
 							loading: false
