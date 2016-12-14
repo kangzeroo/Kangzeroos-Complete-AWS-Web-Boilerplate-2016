@@ -2,12 +2,22 @@
 // https://github.com/aws/amazon-cognito-identity-js
 
 import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails, CognitoIdentityCredentials, WebIdentityCredentials } from 'amazon-cognito-identity-js';
-import { userPool, LANDLORD_USERPOOL_ID, LANDLORD_IDENTITY_POOL_ID, TENANT_IDENTITY_POOL_ID } from './aws_profile'
+import { userPool, USERPOOL_ID, IDENTITY_POOL_ID } from './aws_profile'
 import uuid from 'node-uuid'
 
 // https://github.com/aws/amazon-cognito-js/
 // entire cognito sync
 import 'amazon-cognito-js'
+
+// we create an array of all attributes, without the `custom:` prefix.
+// This will be used for building the React-Redux object in plain JS, hence no AWS Cognito related name requirements
+const landlordAttrs = ["email", "agentName", "id"]
+// we create an array of all our desired attributes for changing, and we loop through this array to access the key name.
+// This will be used for AWS Cognito related name requirements
+const attrs = ["custom:agentName"]
+
+
+
 
 // sign up user with the 3 paramesters we require (AWS itself only requires 2: email and password)
 export function signUpUser({email, agentName, password}){
@@ -24,25 +34,18 @@ export function signUpUser({email, agentName, password}){
 		    Name : 'custom:agentName',
 		    Value : agentName
 		}
-		// we added an additional parameter `id` as a unique identifier
-		const dataId = {
-		    Name : 'custom:id',
-		    Value : uuid.v4()				// create a custom id
-		}
 		// take each attribute object and turn it into a CognitoUserAttribute object
 		const attributeEmail = new CognitoUserAttribute(dataEmail)
 		const attributeAgentName = new CognitoUserAttribute(dataAgentName)
-		const attributeId = new CognitoUserAttribute(dataId)
 		// add each CognitoUserAttribute to the attributeList array
-		attributeList.push(attributeEmail, attributeAgentName, attributeId)
+		attributeList.push(attributeEmail, attributeAgentName)
 		// call the signUp method of our userPool, passing in email+password as the first 2 args (the two that AWS requires)
 		// and as the 3rd arg pass in the attributeList array, followed by `null` as the 4th arg
 		// finally as the 5th (last) arg, pass in the callback function that has the error or result from AWS
-		userPool.signUp(email, password, attributeList, null, function(err, result){
+		userPool.signUp(email, password, null, function(err, result){
 		    if (err) {
 		        console.log(err);
 		        rej(err)
-		        return;
 		    }
 				// resolve the promise with whatever attributes you need
 				// in this case, we return an object with only the email attribute because we will save that to localStorage
@@ -111,7 +114,7 @@ function authenticateUser(cognitoUser, authenticationDetails){
 							// we set these credentials by passing in a `CognitoIdentityCredentials` object that has our identity pool id and logins object
 							// we are logging into an AWS federated identify pool
 							AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-	                IdentityPoolId : USERPOOL_ID, // your identity pool id here
+	                IdentityPoolId : IDENTITY_POOL_ID, // your identity pool id here
 	                Logins : loginsObj
 	            })
 							// then we refresh our credentials to use the latest one that we set
@@ -152,14 +155,6 @@ function buildUserObject(cognitoUser){
 		    	}else{
 						// normal Cognito attributes will not be prefixed with `custom:` so we can use use the string immediately
 		    		userProfileObject[result[i].getName()] = result[i].getValue()
-		    	}
-		    }
-				// now we loop through our `userProfileObject` and eliminate any attributes that have an empty string or other empty js value
-				// this is actually not mandatory but useful if we had a form that users can update with potentially empty value (or you can implement client side validation)
-		    const landlordAttrs = ["email", "agentName", "id"]
-		    for(let x = 0; x < landlordAttrs.length; x++){
-		    	if(!userProfileObject[landlordAttrs[x]]){
-		    		userProfileObject[landlordAttrs[x]] = null
 		    	}
 		    }
 	      // and now our user profile object is complete and we resolve the promise to move on to the next step
@@ -208,8 +203,6 @@ export function verifyUserAccount({email, pin}){
 export function updateUserInfo(email, editedInfo){
 	console.log(editedInfo)
 	const p = new Promise((res, rej)=>{
-		// we create an array of all our desired attributes for changing, and we loop through this array to access the key name
-		const attrs = ["custom:agentName"]
 		// we create an array for our attributes that we want to update, and push all `CognitoUserAttribute` objects into it
 		const attributeList = []
 		// loop through the `attrs` array to create our `CognitoUserAttribute` objects
@@ -358,12 +351,12 @@ export function retrieveUserFromLocalStorage(){
 	            // Edge case, AWS Cognito does not allow for the Logins attr to be dynamically generated. So we must create the loginsObj beforehand
 	            const loginsObj = {
 	                // our loginsObj will just use the jwtToken to verify our user
-	                [LANDLORD_USERPOOL_ID] : session.getIdToken().getJwtToken()
+	                [USERPOOL_ID] : session.getIdToken().getJwtToken()
 	            }
 							// create a new `CognitoIdentityCredentials` object to set our credentials
 							// we are logging into a AWS federated identity pool
 			    		AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-	                IdentityPoolId : LANDLORD_IDENTITY_POOL_ID, // your identity pool id here
+	                IdentityPoolId : IDENTITY_POOL_ID, // your identity pool id here
 	                Logins : loginsObj
 	            })
 							// refresh the credentials so we can use it in our app
@@ -405,7 +398,7 @@ export function registerFacebookLoginWithCognito(response){
 			// we pass in the accessToken from the fb response into our `CognitoIdentityCredentials`
 	    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 				// we are logging into an AWS federated identify pool, for facebook login
-	      IdentityPoolId: TENANT_IDENTITY_POOL_ID,
+	      IdentityPoolId: IDENTITY_POOL_ID,
 	      Logins: {
 	         'graph.facebook.com': response.authResponse.accessToken
 	      }

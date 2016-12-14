@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router'
 
 import { xMidBlue } from '../../stylesJS/base_colors'
 
-
+import {setUser} from '../../actions/auth_actions'
 import {signInUser, forgotPassword, retrieveUserFromLocalStorage} from '../../api/aws/aws_cognito'
 
 class Login extends Component {
@@ -22,16 +22,16 @@ class Login extends Component {
 	}
 
 	componentDidMount(){
-		retrieveUserFromLocalStorage()
-			.then((data)=>{
-				// this.props.setLandlord(data)
-			})
 		const savedEmail = localStorage.getItem('User_Email')
 		if(savedEmail){
 			this.setState({
 				email: savedEmail
 			})
 		}
+		retrieveUserFromLocalStorage()
+			.then((data)=>{
+				this.props.setUserToReduxState(data)
+			})
 	}
 
 	handleChange(attr, event){
@@ -45,9 +45,9 @@ class Login extends Component {
 		signInUser({
 			email: this.state.email,
 			password: this.state.password
-		}).then((data)=>{
+		}).then((userProfileObject)=>{
 			localStorage.setItem('User_Email', this.state.email)
-			// this.props.setLandlord(data)
+			this.props.setUser(userProfileObject)
 		})
 		.catch((err)=>{
 			this.setState({
@@ -55,11 +55,9 @@ class Login extends Component {
 				loading: false
 			})
 		})
-		// this.props.signinLandlord(this.state)
 	}
 
 	redirectTo(route){
-		// this.props.authError(null)
 		browserHistory.push(route)
 	}
 
@@ -121,7 +119,7 @@ function mapStateToProps(state){
 	}
 }
 
-export default connect(mapStateToProps)(RadiumHOC);
+export default connect(mapStateToProps, {setUser})(RadiumHOC);
 
 
 // =========================================================
