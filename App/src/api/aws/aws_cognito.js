@@ -283,11 +283,9 @@ export function forgotPassword(email){
 							// 	cognitoUser: cognitoUser,
 							//	thirdArg: this
 							// })
-						})
 	        },
 					// if failure, reject the promise
 	        onFailure: function(err) {
-	          console.log(err);
 		        rej(err)
 	        },
 	        // Optional automatic callback that passes in `data` object from `forgotPassword()` and resolve the same was as `onSuccess`

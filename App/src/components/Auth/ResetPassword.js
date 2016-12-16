@@ -49,12 +49,11 @@ class ResetPassword extends Component {
 
 	verifyPin(){
 		if(this.props.password == this.props.confirm_password){
-			console.log(this.state.pin)
 			this.state.cognitoUserPackage.cognitoUser
 				.confirmPassword(this.state.pin, this.state.password, this.state.cognitoUserPackage.thirdArg)
-				setTimeout(()=>{
-					browserHistory.push("/auth/login")
-				}, 500)
+			setTimeout(()=>{
+				browserHistory.push("/auth/login")
+			}, 500)
 		}
 	}
 
