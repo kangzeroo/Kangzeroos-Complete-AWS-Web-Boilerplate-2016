@@ -21,6 +21,7 @@ const attrs = ["custom:agentName"]
 
 // sign up user with the 3 paramesters we require (AWS itself only requires 2: email and password)
 export function signUpUser({email, agentName, password}){
+	console.log("SIGN UP USER...")
 	// instantiate a promise so we can work with this async easily
 	const p = new Promise((res, rej)=>{
 		// create an array of attributes that we want
@@ -42,11 +43,14 @@ export function signUpUser({email, agentName, password}){
 		// call the signUp method of our userPool, passing in email+password as the first 2 args (the two that AWS requires)
 		// and as the 3rd arg pass in the attributeList array, followed by `null` as the 4th arg
 		// finally as the 5th (last) arg, pass in the callback function that has the error or result from AWS
+			console.log("about to USER...")
 		userPool.signUp(email, password, null, function(err, result){
 		    if (err) {
+		        console.log("an error occurred");
 		        console.log(err);
 		        rej(err)
 		    }
+					console.log("Sgo on")
 				// resolve the promise with whatever attributes you need
 				// in this case, we return an object with only the email attribute because we will save that to localStorage
 		    res({email})
@@ -339,7 +343,6 @@ export function retrieveUserFromLocalStorage(){
 							// if failed to get session, reject the promise
 	            if (err) {
 	                rej(err)
-	                return;
 	            }
 							// check that the session is valid
 	            console.log('session validity: ' + session.isValid());

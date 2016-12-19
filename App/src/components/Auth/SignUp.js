@@ -48,6 +48,8 @@ class SignUp extends Component {
 				// call the AWS Cognito function that we named `signUpUser`
 				signUpUser(this.state)
 					.then(({email})=>{
+
+							console.log("done signing up")
 						// if successful, then save the email to localStorage so we can pre-fill the email form on the login & verify account screens
 						localStorage.setItem('User_Email', email)
 						// re-route to the verify account screen
