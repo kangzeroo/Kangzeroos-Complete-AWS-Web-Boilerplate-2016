@@ -3,6 +3,7 @@
 
 import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails, CognitoIdentityCredentials, WebIdentityCredentials } from 'amazon-cognito-identity-js';
 import { userPool, USERPOOL_ID, IDENTITY_POOL_ID } from './aws_profile'
+import {createUserS3Album} from './aws_s3'
 import uuid from 'node-uuid'
 
 // https://github.com/aws/amazon-cognito-js/
@@ -44,6 +45,7 @@ export function signUpUser({email, agentName, password}){
 		userPool.signUp(email, password, attributeList, null, function(err, result){
 		    if (err) {
 		        rej(err)
+						return
 		    }
 				// resolve the promise with whatever attributes you need
 				// in this case, we return an object with only the email attribute because we will save that to localStorage
@@ -70,6 +72,10 @@ export function signInUser({email, password}){
 		const cognitoUser = new CognitoUser(userData)
 		// call the `authenticateUser` method from Cognito, passing in the `CognitoUser` object and the `AuthenticationDetails` object
 		authenticateUser(cognitoUser, authenticationDetails)
+			// check if there is an S3 album for the user, and if not, then create one
+			.then(()=>{
+				return createUserS3Album(email)
+			})
 			.then(()=>{
 				// if successfully authenticated, build the user object to return to the Redux state to use
 				return buildUserObject(cognitoUser)
@@ -141,6 +147,7 @@ function buildUserObject(cognitoUser){
 	        if (err) {
 	            console.log(err);
 	    				rej(err)
+							return
 	        }
 					// instantiate an empty object
 	        let userProfileObject = {}
@@ -316,6 +323,7 @@ export function resetVerificationPIN(email){
 	        if (err) {
 	          console.log(err);
 		        rej(err)
+						return
 	        }
 					// resolve if successfull
 	        res()
@@ -337,6 +345,7 @@ export function retrieveUserFromLocalStorage(){
 							// if failed to get session, reject the promise
 	            if (err) {
 	                rej(err)
+									return
 	            }
 							// check that the session is valid
 	            console.log('session validity: ' + session.isValid());

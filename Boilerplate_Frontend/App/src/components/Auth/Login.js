@@ -52,7 +52,7 @@ class Login extends Component {
 		})
 		.catch((err)=>{
 			this.setState({
-				errorMessage: err.message,
+				errorMessage: err,
 				loading: false
 			})
 		})

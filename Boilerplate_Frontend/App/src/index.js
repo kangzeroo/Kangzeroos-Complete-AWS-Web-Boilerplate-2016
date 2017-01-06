@@ -13,6 +13,7 @@ import VerifyAccount from './components/Auth/VerifyAccount'
 import ResetPassword from './components/Auth/ResetPassword'
 import AuthenticatedPage from './components/Auth/AuthenticatedPage'
 import RequireAuth from './components/Auth/require_auth_HOC'
+import Gallery from './components/S3/Gallery'
 
 // This is a component tree that will be injected into index.html <div class='container'></div>
 // The <Provider store={Store}> component is one provided by Redux. The `Store` is imported from `./store.js`
@@ -27,6 +28,7 @@ ReactDOM.render(
   	<Router history={browserHistory}>
       <Route path='/' component={App}>
         <IndexRoute component={Home} />
+        <Route path='images' component={Gallery} />
         <Route path='auth'>
           <Route path='login' component={Login}></Route>
           <Route path='signup' component={SignUp}></Route>

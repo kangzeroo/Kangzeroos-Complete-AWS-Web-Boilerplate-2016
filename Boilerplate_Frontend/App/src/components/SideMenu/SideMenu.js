@@ -13,6 +13,7 @@ class SideMenu extends Component {
 			<div id='mainview' style={comStyles(this.props.sideMenuVisible).mainview}>
 				<SideHeader />
         <SideOption text='Home' link='/' />
+        <SideOption text='Gallery' link='/images' />
 				{
 					this.props.authenticated
 					?
