@@ -33,6 +33,10 @@ export function setUserToReduxState(user){
 			payload: user
 		})
 		// redirect to route
+<<<<<<< HEAD
 		browserHistory.push('/auth/authenticated_page');
+=======
+		browserHistory.push('/profile');
+>>>>>>> CognitoUpdates/master
 	}
 }

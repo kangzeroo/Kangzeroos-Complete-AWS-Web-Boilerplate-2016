@@ -3,7 +3,10 @@
 
 import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails, CognitoIdentityCredentials, WebIdentityCredentials } from 'amazon-cognito-identity-js';
 import { userPool, USERPOOL_ID, IDENTITY_POOL_ID } from './aws_profile'
+<<<<<<< HEAD
 import {createUserS3Album} from './aws_s3'
+=======
+>>>>>>> CognitoUpdates/master
 import uuid from 'node-uuid'
 
 // https://github.com/aws/amazon-cognito-js/
@@ -45,7 +48,10 @@ export function signUpUser({email, agentName, password}){
 		userPool.signUp(email, password, attributeList, null, function(err, result){
 		    if (err) {
 		        rej(err)
+<<<<<<< HEAD
 						return
+=======
+>>>>>>> CognitoUpdates/master
 		    }
 				// resolve the promise with whatever attributes you need
 				// in this case, we return an object with only the email attribute because we will save that to localStorage
@@ -72,10 +78,13 @@ export function signInUser({email, password}){
 		const cognitoUser = new CognitoUser(userData)
 		// call the `authenticateUser` method from Cognito, passing in the `CognitoUser` object and the `AuthenticationDetails` object
 		authenticateUser(cognitoUser, authenticationDetails)
+<<<<<<< HEAD
 			// check if there is an S3 album for the user, and if not, then create one
 			.then(()=>{
 				return createUserS3Album(email)
 			})
+=======
+>>>>>>> CognitoUpdates/master
 			.then(()=>{
 				// if successfully authenticated, build the user object to return to the Redux state to use
 				return buildUserObject(cognitoUser)
@@ -147,7 +156,10 @@ function buildUserObject(cognitoUser){
 	        if (err) {
 	            console.log(err);
 	    				rej(err)
+<<<<<<< HEAD
 							return
+=======
+>>>>>>> CognitoUpdates/master
 	        }
 					// instantiate an empty object
 	        let userProfileObject = {}
@@ -205,7 +217,11 @@ export function verifyUserAccount({email, pin}){
 }
 
 // if we want to update the info of our user, we must pass in their unique identifier (email) and an object representing the user info
+<<<<<<< HEAD
 export function updateUserInfo(email, editedInfo){
+=======
+export function updateUserInfo(editedInfo){
+>>>>>>> CognitoUpdates/master
 	console.log(editedInfo)
 	const p = new Promise((res, rej)=>{
 		// we create an array for our attributes that we want to update, and push all `CognitoUserAttribute` objects into it
@@ -240,7 +256,10 @@ export function updateUserInfo(email, editedInfo){
 		            return;
 		        }
 						// we user `setTimeout()` to give AWS some time to update the user properties
+<<<<<<< HEAD
 		        setTimeout(()=>{
+=======
+>>>>>>> CognitoUpdates/master
 							// then we get the latest user attributes
 			        cognitoUser.getUserAttributes(function(err, result) {
 								// reject promise if failed
@@ -252,10 +271,17 @@ export function updateUserInfo(email, editedInfo){
 								// if success, then `buildUserObject()` again and resolve the promise with `userProfileObject`
  				        buildUserObject(cognitoUser)
 				        	.then((userProfileObject)=>{
+<<<<<<< HEAD
 				        		res(userProfileObject)
 				        	})
 				    	})
 		        }, 500)
+=======
+										console.log(userProfileObject)
+				        		res(userProfileObject)
+				        	})
+				    	})
+>>>>>>> CognitoUpdates/master
 		    });
       }
     });
@@ -323,7 +349,10 @@ export function resetVerificationPIN(email){
 	        if (err) {
 	          console.log(err);
 		        rej(err)
+<<<<<<< HEAD
 						return
+=======
+>>>>>>> CognitoUpdates/master
 	        }
 					// resolve if successfull
 	        res()
@@ -345,7 +374,10 @@ export function retrieveUserFromLocalStorage(){
 							// if failed to get session, reject the promise
 	            if (err) {
 	                rej(err)
+<<<<<<< HEAD
 									return
+=======
+>>>>>>> CognitoUpdates/master
 	            }
 							// check that the session is valid
 	            console.log('session validity: ' + session.isValid());
