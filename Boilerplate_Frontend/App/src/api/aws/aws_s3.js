@@ -12,7 +12,7 @@ export function createUserS3Album(albumName){
   			const S3 = new AWS.S3()
         // reject the promise if the albumName is missing
   			if (!albumName) {
-  				const msg = 'Album names must contain at least one non-space character.'
+  				const msg = 'Please provide a valid album name'
   		    	// console.log(msg);
   		    	rej(msg)
             return

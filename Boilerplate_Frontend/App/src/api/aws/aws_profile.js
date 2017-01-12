@@ -14,12 +14,8 @@ const userData = {
     ClientId : CLIENT_ID
 }
 
-<<<<<<< HEAD
 export const BUCKET_NAME = 'kangzeroos-s3-tutorial'
 
-=======
-export const BUCKET_NAME = 'kangzeroo-complete-aws-tutorial-pics'
->>>>>>> CognitoUpdates/master
 export const userPool = new CognitoUserPool(userData);
 export const USERPOOL_ID = 'cognito-idp.'+REGION+'.amazonaws.com/'+USER_POOL_ID
 export const IDENTITY_POOL_ID = 'us-east-1:65bd1e7d-546c-4f8c-b1bc-9e3e571cfaa7'

@@ -48,10 +48,7 @@ export function signUpUser({email, agentName, password}){
 		userPool.signUp(email, password, attributeList, null, function(err, result){
 		    if (err) {
 		        rej(err)
-<<<<<<< HEAD
 						return
-=======
->>>>>>> CognitoUpdates/master
 		    }
 				// resolve the promise with whatever attributes you need
 				// in this case, we return an object with only the email attribute because we will save that to localStorage
@@ -78,13 +75,10 @@ export function signInUser({email, password}){
 		const cognitoUser = new CognitoUser(userData)
 		// call the `authenticateUser` method from Cognito, passing in the `CognitoUser` object and the `AuthenticationDetails` object
 		authenticateUser(cognitoUser, authenticationDetails)
-<<<<<<< HEAD
 			// check if there is an S3 album for the user, and if not, then create one
 			.then(()=>{
 				return createUserS3Album(email)
 			})
-=======
->>>>>>> CognitoUpdates/master
 			.then(()=>{
 				// if successfully authenticated, build the user object to return to the Redux state to use
 				return buildUserObject(cognitoUser)
@@ -156,10 +150,7 @@ function buildUserObject(cognitoUser){
 	        if (err) {
 	            console.log(err);
 	    				rej(err)
-<<<<<<< HEAD
 							return
-=======
->>>>>>> CognitoUpdates/master
 	        }
 					// instantiate an empty object
 	        let userProfileObject = {}
