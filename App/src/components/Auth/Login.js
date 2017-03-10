@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router'
 
 import { xMidBlue } from '../../stylesJS/base_colors'
 
-import {setUser} from '../../actions/auth_actions'
+import {setUser, setUserToReduxState} from '../../actions/auth_actions'
 import {signInUser, forgotPassword, retrieveUserFromLocalStorage} from '../../api/aws/aws_cognito'
 
 class Login extends Component {
@@ -30,7 +30,7 @@ class Login extends Component {
 		}
 		retrieveUserFromLocalStorage()
 			.then((data)=>{
-				this.props.setUserToReduxState(data)
+				setUserToReduxState(data)
 			})
 	}
 
@@ -48,6 +48,7 @@ class Login extends Component {
 		}).then((userProfileObject)=>{
 			localStorage.setItem('User_Email', this.state.email)
 			this.props.setUser(userProfileObject)
+			browserHistory.push('/')
 		})
 		.catch((err)=>{
 			this.setState({

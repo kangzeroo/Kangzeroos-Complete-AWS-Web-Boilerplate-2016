@@ -11,6 +11,18 @@ export function logoutUserFromReduxState(){
 	}
 }
 
+export function setUser(user){
+	return function(dispatch){
+		dispatch({
+			type: AUTH_USER
+		})
+		dispatch({
+			type: SET_USER,
+			payload: user
+		})
+	}
+}
+
 export function setUserToReduxState(user){
 	return function(dispatch){
 		dispatch({
@@ -21,6 +33,7 @@ export function setUserToReduxState(user){
 			payload: user
 		})
 		// redirect to route
+		//browserHistory.push('/auth/authenticated_page');
 		browserHistory.push('/profile');
 	}
 }
