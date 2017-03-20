@@ -48,19 +48,16 @@ class Login extends Component {
 		}).then((userProfileObject)=>{
 			localStorage.setItem('User_Email', this.state.email)
 			this.props.setUser(userProfileObject)
-<<<<<<< HEAD
 			browserHistory.push('/auth/authenticated_page')
 		})
 		.catch((err)=>{
 			this.setState({
 				errorMessage: err,
-=======
 			browserHistory.push('/auth/profile')
 		})
 		.catch((err)=>{
 			this.setState({
 				errorMessage: err.message,
->>>>>>> CognitoUpdates/master
 				loading: false
 			})
 		})

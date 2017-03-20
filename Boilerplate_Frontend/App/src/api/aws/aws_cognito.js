@@ -3,10 +3,7 @@
 
 import { CognitoUserPool, CognitoUserAttribute, CognitoUser, AuthenticationDetails, CognitoIdentityCredentials, WebIdentityCredentials } from 'amazon-cognito-identity-js';
 import { userPool, USERPOOL_ID, IDENTITY_POOL_ID } from './aws_profile'
-<<<<<<< HEAD
 import {createUserS3Album} from './aws_s3'
-=======
->>>>>>> CognitoUpdates/master
 import uuid from 'node-uuid'
 
 // https://github.com/aws/amazon-cognito-js/
