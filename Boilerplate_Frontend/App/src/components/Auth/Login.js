@@ -53,6 +53,7 @@ class Login extends Component {
 		.catch((err)=>{
 			this.setState({
 				errorMessage: err,
+			})
 			browserHistory.push('/auth/profile')
 		})
 		.catch((err)=>{

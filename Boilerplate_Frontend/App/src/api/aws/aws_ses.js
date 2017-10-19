@@ -1,6 +1,6 @@
 // AWS SES (Simple Email Service) for sending emails via Amazon
 import AWS from 'aws-sdk'
-import {BUCKET_NAME} from './aws-profile'
+import {BUCKET_NAME} from './aws_profile'
 
 export function sendAWSEmail(email, message){
 	const ses = new AWS.SES({
