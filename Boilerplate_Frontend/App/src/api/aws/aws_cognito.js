@@ -205,11 +205,7 @@ export function verifyUserAccount({email, pin}){
 }
 
 // if we want to update the info of our user, we must pass in their unique identifier (email) and an object representing the user info
-<<<<<<< HEAD
 export function updateUserInfo(email, editedInfo){
-=======
-export function updateUserInfo(editedInfo){
->>>>>>> CognitoUpdates/master
 	console.log(editedInfo)
 	const p = new Promise((res, rej)=>{
 		// we create an array for our attributes that we want to update, and push all `CognitoUserAttribute` objects into it
@@ -244,10 +240,7 @@ export function updateUserInfo(editedInfo){
 		            return;
 		        }
 						// we user `setTimeout()` to give AWS some time to update the user properties
-<<<<<<< HEAD
 		        setTimeout(()=>{
-=======
->>>>>>> CognitoUpdates/master
 							// then we get the latest user attributes
 			        cognitoUser.getUserAttributes(function(err, result) {
 								// reject promise if failed
@@ -259,17 +252,10 @@ export function updateUserInfo(editedInfo){
 								// if success, then `buildUserObject()` again and resolve the promise with `userProfileObject`
  				        buildUserObject(cognitoUser)
 				        	.then((userProfileObject)=>{
-<<<<<<< HEAD
 				        		res(userProfileObject)
 				        	})
 				    	})
 		        }, 500)
-=======
-										console.log(userProfileObject)
-				        		res(userProfileObject)
-				        	})
-				    	})
->>>>>>> CognitoUpdates/master
 		    });
       }
     });
@@ -337,10 +323,7 @@ export function resetVerificationPIN(email){
 	        if (err) {
 	          console.log(err);
 		        rej(err)
-<<<<<<< HEAD
 						return
-=======
->>>>>>> CognitoUpdates/master
 	        }
 					// resolve if successfull
 	        res()
@@ -362,10 +345,7 @@ export function retrieveUserFromLocalStorage(){
 							// if failed to get session, reject the promise
 	            if (err) {
 	                rej(err)
-<<<<<<< HEAD
 									return
-=======
->>>>>>> CognitoUpdates/master
 	            }
 							// check that the session is valid
 	            console.log('session validity: ' + session.isValid());

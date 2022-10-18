@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Radium from 'radium'
-import { sendAWSEmail } from '../api/aws/aws-ses'
+import { sendAWSEmail } from '../../api/aws/aws_ses'
 
 class EmailSender extends Component {
 
@@ -37,7 +37,7 @@ class EmailSender extends Component {
             <div style={comStyles().senderEmail}>Sending message to: {this.props.senderEmail}</div>
             <button onClick={this.sendEmail.bind(this)}>Send Email</button>
           </div>
-        </div>
+        </form>
 			</div>
 		)
 	}

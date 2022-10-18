@@ -13,7 +13,6 @@ class SideMenu extends Component {
 			<div id='mainview' style={comStyles(this.props.sideMenuVisible).mainview}>
 				<SideHeader />
         <SideOption text='Home' link='/' />
-<<<<<<< HEAD
         <SideOption text='Gallery' link='/images' />
 				{
 					this.props.authenticated
@@ -21,17 +20,6 @@ class SideMenu extends Component {
 	        <SideOption text='Sign Out' link='/auth/signout' />
 					:
 	        <SideOption text='Login' link='/auth/login' />
-=======
-				{
-					this.props.authenticated
-					?
-	        <div style={comStyles().loggedIn}>
-		        <SideOption text='Sign Out' link='/auth/signout' />
-						<SideOption text='Profile' link='/profile' />
-					</div>
-					:
-					<SideOption text='Login' link='/auth/login' />
->>>>>>> CognitoUpdates/master
 				}
 			</div>
 		)
@@ -78,13 +66,6 @@ const comStyles = (sideMenuVisible) => {
 			zIndex: "99",
 			transition: "0.5s",
 			...paramsCSS
-<<<<<<< HEAD
-=======
-		},
-		loggedIn: {
-			display: "flex",
-			flexDirection: "column",
->>>>>>> CognitoUpdates/master
 		}
 	}
 }
